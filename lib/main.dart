@@ -1,5 +1,6 @@
 import 'package:app/data/usuario.dart';
 import 'package:app/pages/login_usuario.dart';
+import 'package:app/pages/registro_usuario.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,13 +20,13 @@ class MyApp extends StatelessWidget {
       // Para que no salga la etiqueta de debug en la esquina del celular
       debugShowCheckedModeBanner: false,
       title: "Cuenta",
-      home: Inicio(),
+      home: Main(),
     );
   }
 }
 
-class Inicio extends StatelessWidget {
-  const Inicio({
+class Main extends StatelessWidget {
+  const Main({
     super.key,
   });
 
@@ -101,12 +102,12 @@ class Inicio extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Cuando se presiona el botón, navega a la página de registro
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => const Register(),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Register(),
+                      ),
+                    );
                   },
                   style: ButtonStyle(
                     elevation: MaterialStateProperty.all(

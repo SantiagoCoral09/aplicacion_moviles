@@ -1,12 +1,11 @@
 import 'package:app/data/cuenta.dart';
 import 'package:app/data/usuario.dart';
 import 'package:app/pages/inicio.dart';
+import 'package:app/pages/registro_usuario.dart';
 import 'package:flutter/material.dart';
 
 final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();
-
-final _formKey = GlobalKey<FormState>();
 
 class LoginUsuario extends StatefulWidget {
   const LoginUsuario({Key? key}) : super(key: key);
@@ -16,12 +15,13 @@ class LoginUsuario extends StatefulWidget {
 }
 
 class _LoginUsuarioState extends State<LoginUsuario> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
           // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-
           // padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
           decoration: const BoxDecoration(
               image: DecorationImage(
@@ -40,11 +40,11 @@ class _LoginUsuarioState extends State<LoginUsuario> {
           decoration: BoxDecoration(
               // color: const Color.fromRGBO(159, 201, 218, 25),
               borderRadius: BorderRadius.circular(10)),
-          child: LoginUsuarioForm(context)),
+          child: loginUsuarioForm(context)),
     );
   }
 
-  Widget LoginUsuarioForm(BuildContext context) {
+  Widget loginUsuarioForm(BuildContext context) {
     return Form(
         key: _formKey,
         child: ListView(
@@ -280,12 +280,12 @@ class _LoginUsuarioState extends State<LoginUsuario> {
       child: ElevatedButton(
         onPressed: () {
           // Cuando se presiona el botón, navega a la página de registro
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => const Register(),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Register(),
+            ),
+          );
         },
         style: ButtonStyle(
           elevation:
