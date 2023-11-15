@@ -71,7 +71,7 @@ class _LoginUsuarioState extends State<LoginUsuario> {
                 ),
                 child: const Text(
                   'Correo electrónico',
-                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
