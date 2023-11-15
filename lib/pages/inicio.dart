@@ -23,14 +23,16 @@ class Inicio extends StatelessWidget {
   }
 
   Widget fullBody(BuildContext context) {
-    return Center(
-      child: Container(
-          // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-          // padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-          decoration: BoxDecoration(
-              // color: const Color.fromRGBO(159, 201, 218, 25),
-              borderRadius: BorderRadius.circular(10)),
-          child: InicioWidget(context)),
+    return SingleChildScrollView(
+      child: Center(
+        child: Container(
+            // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+            // padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+            decoration: BoxDecoration(
+                // color: const Color.fromRGBO(159, 201, 218, 25),
+                borderRadius: BorderRadius.circular(10)),
+            child: InicioWidget(context)),
+      ),
     );
   }
 
@@ -64,7 +66,7 @@ class Inicio extends StatelessWidget {
               ),
               Container(
                   // margin: EdgeInsets.symmetric(horizontal: 10),
-                  height: 200,
+                  height: 180,
                   width: 350,
                   decoration: BoxDecoration(
                       color: Color.fromARGB(117, 248, 248, 248),
@@ -95,7 +97,7 @@ class Inicio extends StatelessWidget {
                           ),
                         )
                       ])),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
