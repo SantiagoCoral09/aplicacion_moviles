@@ -1,6 +1,6 @@
-import 'package:app/data/cuenta.dart';
+// import 'package:app/data/cuenta.dart';
 import 'package:app/data/usuario.dart';
-import 'package:app/pages/inicio.dart';
+// import 'package:app/pages/inicio.dart';
 import 'package:app/pages/login_usuario.dart';
 import 'package:flutter/material.dart';
 
@@ -318,19 +318,26 @@ class _RegisterState extends State<Register> {
                               // Muestra un mensaje de éxito
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                    content: Text('Has iniciado sesión')),
+                                    content:
+                                        Text('Te has registrado con exito')),
                               );
                               //Se guarda true para saber que inicio sesion
                               // usuarioLogin.login = true;
-                              Cuenta cuentaUsuario = Cuenta(
-                                  email: nuevoUsuario.email,
-                                  password: nuevoUsuario.password);
+                              // Cuenta cuentaUsuario = Cuenta(
+                              //     email: nuevoUsuario.email,
+                              //     password: nuevoUsuario.password);
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => Inicio(
+                              //       cuentaUsuario: cuentaUsuario,
+                              //     ),
+                              //   ),
+                              // );
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Inicio(
-                                    cuentaUsuario: cuentaUsuario,
-                                  ),
+                                  builder: (context) => const LoginUsuario(),
                                 ),
                               );
                             },
