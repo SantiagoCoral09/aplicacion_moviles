@@ -70,7 +70,7 @@ class _LoginUsuarioState extends State<LoginUsuario> {
                   ),
                 ),
                 child: const Text(
-                  'MAIL',
+                  'Correo electrónico',
                   style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -89,7 +89,7 @@ class _LoginUsuarioState extends State<LoginUsuario> {
                   ),
                 ),
                 child: const Text(
-                  'PASSWORD',
+                  'Contraseña',
                   style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -119,7 +119,7 @@ class _LoginUsuarioState extends State<LoginUsuario> {
         validator: (value) {
           ///Validar que se ingresen datos en el cmpo de texto
           if (value!.isEmpty) {
-            return 'Ingrese el email';
+            return 'Ingrese el correo electrónico';
           }
           return null;
         },
@@ -159,7 +159,7 @@ class _LoginUsuarioState extends State<LoginUsuario> {
               width: 7,
             ),
             Text(
-              'TO ACCESS',
+              'Ingresar',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -296,7 +296,7 @@ class _LoginUsuarioState extends State<LoginUsuario> {
               MaterialStateProperty.all(const Color.fromARGB(255, 21, 114, 21)),
         ),
         child: const Text(
-          'Register',
+          'Registrarse',
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
