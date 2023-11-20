@@ -1,12 +1,10 @@
-import 'package:app/data/usuario.dart';
+import 'package:app/data/auth.dart';
+import 'package:app/pages/inicio.dart';
 import 'package:app/pages/login_usuario.dart';
 import 'package:app/pages/registro_usuario.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  listaUsuarios.add(usuario1);
-  listaUsuarios.add(usuario2);
-  listaUsuarios.add(usuario3);
   runApp(const MyApp());
 }
 
@@ -18,7 +16,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Cuenta",
-      home: Main(),
+      initialRoute: '/', // Ruta inicial
+      routes: {
+        '/': (context) => const Main(),
+        '/iniciarsesion': (context) => const LoginUsuario(),
+        '/registrar': (context) => const Register(),
+        '/inicio': (context) => Inicio(),
+      },
     );
   }
 }
@@ -35,9 +39,9 @@ class Main extends StatelessWidget {
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-              "https://i.pinimg.com/236x/bb/ff/28/bbff28112f4c75cf11e37360ea0f24af.jpg",
+              "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             ),
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.cover,
           ),
         ),
         child: SingleChildScrollView(
@@ -94,6 +98,8 @@ class Main extends StatelessWidget {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
+                      print(
+                          'tokennn: ${autenticacion.idUsuario} : :${autenticacion.token}');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -154,6 +160,8 @@ class Main extends StatelessWidget {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
+                      print(
+                          'tokennn: ${autenticacion.idUsuario} : :${autenticacion.token}');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -179,6 +187,9 @@ class Main extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
+                  SizedBox(
+                    height: 50,
+                  )
                 ],
               ),
             ),

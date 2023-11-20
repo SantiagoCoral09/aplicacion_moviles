@@ -1,46 +1,52 @@
 class Usuario {
-  String? nombre;
-  String? email;
-  String? password;
-  String? telefono;
+  final int? id;
+  final String nombre;
+  final String celular;
+  final String email;
+  final String password;
+  double saldo;
 
-  bool login;
-
-  Usuario(
-      {this.nombre,
-      this.email,
-      this.password,
-      this.telefono,
-      this.login = false});
+  Usuario({
+    this.id,
+    required this.nombre,
+    required this.celular,
+    required this.email,
+    required this.password,
+    this.saldo = 0.0,
+  });
 
   @override
   String toString() {
     return """
-      Informacion del Usuario: 
+      Informacion del Usuario
       Nombre: $nombre, 
       Email: $email, 
       Password: $password,
-      Telefono: $telefono,
+      celular: $celular
     """;
   }
+
+  // Este constructor convierte un mapa JSON en una instancia de Usuario
+  factory Usuario.fromJson(Map<String, dynamic> json) {
+    return Usuario(
+      id: json['id'] as int,
+      nombre: json['nombre'] as String,
+      celular: json['celular'] as String,
+      email: json['email'] as String,
+      password: json['password'] != null ? json['password'] as String : '',
+      saldo: (json['saldo'] as double?) ?? 0.0,
+    );
+  }
+
+  // Este método convierte la instancia de Usuario a un mapa JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'nombre': nombre,
+      'celular': celular,
+      'email': email,
+      'password': password,
+      'saldo': saldo,
+    };
+  }
 }
-
-List<Usuario> listaUsuarios = [];
-
-Usuario usuario1 = Usuario(
-    nombre: 'Primer usuario',
-    email: 'usuario1@gmail.com',
-    password: '1234',
-    telefono: '3123456789');
-
-Usuario usuario2 = Usuario(
-    nombre: 'Segundo usuario',
-    email: 'usuario2@gmail.com',
-    password: '123456789',
-    telefono: '3219876540');
-
-Usuario usuario3 = Usuario(
-    nombre: 'Tercer usuario',
-    email: 'usuario3@gmail.com',
-    password: '0123456',
-    telefono: '3151234567');

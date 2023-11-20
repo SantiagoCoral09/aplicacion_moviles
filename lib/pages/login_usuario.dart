@@ -1,5 +1,4 @@
-import 'package:app/data/cuenta.dart';
-import 'package:app/data/usuario.dart';
+import 'package:app/data/auth.dart';
 import 'package:app/pages/inicio.dart';
 import 'package:app/pages/registro_usuario.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,8 @@ class _LoginUsuarioState extends State<LoginUsuario> {
           decoration: const BoxDecoration(
               image: DecorationImage(
                   image: NetworkImage(
-                      "https://i.pinimg.com/236x/bb/ff/28/bbff28112f4c75cf11e37360ea0f24af.jpg"),
+                    "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                  ),
                   fit: BoxFit.cover)),
           child: fullBody(context)),
     );
@@ -121,6 +121,11 @@ class _LoginUsuarioState extends State<LoginUsuario> {
           if (value!.isEmpty) {
             return 'Ingrese el correo electrónico';
           }
+          // Expresión regular para validar una dirección de correo electrónico
+          RegExp regExp = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
+          if (!regExp.hasMatch(value)) {
+            return 'Dirección de correo electrónico no válida';
+          }
           return null;
         },
         style:
@@ -168,65 +173,26 @@ class _LoginUsuarioState extends State<LoginUsuario> {
             ),
           ],
         ),
-        onPressed: () {
-          Usuario usuarioLogin = Usuario();
+        onPressed: () async {
           if (_formKey.currentState!.validate()) {
             ///Se debe verificar si el usuario está registrado
-
-            usuarioLogin = listaUsuarios.firstWhere(
-                (usuario) =>
-                    usuario.email ==
-                    emailController
-                        .text, // Devuelve vacios los atributos si no se encuentra un usuario con el email,
-                orElse: () => Usuario(
-                      email: "",
-                      nombre: "",
-                      password: "",
-                    ));
-            if (usuarioLogin.email == '') {
-              //No se encontro el email en la lista
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Container(
-                      height: 60,
-                      child: const Center(
-                        child: Text(
-                          'El correo no está registrado',
-                          style: TextStyle(fontSize: 25),
-                        ),
-                      ),
-                    ),
-                    backgroundColor: const Color.fromRGBO(125, 25, 12, 15)),
-              );
-            }
-            //Si esta registrado se verifica la contraseña
-            else if (usuarioLogin.password != passwordController.text) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Container(
-                      height: 60,
-                      child: const Center(
-                        child: Text(
-                          'No es la contraseña correcta',
-                          style: TextStyle(fontSize: 25),
-                        ),
-                      ),
-                    ),
-                    backgroundColor: const Color.fromRGBO(125, 25, 12, 15)),
-              );
-            } else {
-//Primero se muestra un cuadro con la informacion registrada
-              showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text("Ingresa cuenta"),
-                      content: Text("${usuarioLogin.email}"),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              // Limpia los campos después de guardar
+            ///
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Ingresa cuenta"),
+                    content: Text("${emailController.text}"),
+                    actions: [
+                      TextButton(
+                          onPressed: () async {
+                            await autenticacion.iniciarSesion(
+                                emailController.text, passwordController.text);
+                            print('Iniciando sesion...${autenticacion.token}');
+                            if (autenticacion.token != null) {
+                              //Inicia sesion
+// Limpia los campos después de guardar
                               emailController.clear();
                               passwordController.clear();
 
@@ -235,31 +201,42 @@ class _LoginUsuarioState extends State<LoginUsuario> {
                                 const SnackBar(
                                     content: Text('Has iniciado sesión')),
                               );
-                              //Se guarda true para saber que inicio sesion
-                              // usuarioLogin.login = true;
-                              Cuenta cuentaUsuario = Cuenta(
-                                  email: usuarioLogin.email,
-                                  password: usuarioLogin.password);
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Inicio(
-                                    cuentaUsuario: cuentaUsuario,
-                                  ),
+                                  builder: (context) => Inicio(),
                                 ),
                               );
-                            },
-                            child: const Text("OK")),
-                        TextButton(
-                            onPressed: () {
-                              //Si da clic en cancelar no se guarda la informacion
+                            } else {
+                              // Ocurre un error al iniciar sesion
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Container(
+                                      height: 60,
+                                      child: const Center(
+                                        child: Text(
+                                          'El correo no está registrado o contraseña incorrecta',
+                                          style: TextStyle(fontSize: 25),
+                                        ),
+                                      ),
+                                    ),
+                                    backgroundColor:
+                                        const Color.fromRGBO(125, 25, 12, 15)),
+                              );
                               Navigator.pop(context);
-                            },
-                            child: const Text("Cancelar"))
-                      ],
-                    );
-                  });
-            }
+                            }
+                          },
+                          child: const Text("OK")),
+                      TextButton(
+                          onPressed: () {
+                            //Si da clic en cancelar no se guarda la informacion
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Cancelar"))
+                    ],
+                  );
+                });
           } else {
             ///Si hay campos vacios o no se validaron se muestra un mensaje de alerta
             ///y no se guarda nada
@@ -325,6 +302,8 @@ class _PasswordFieldState extends State<PasswordField> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Ingrese la Contraseña';
+          } else if (value.length < 6) {
+            return 'La contraseña debe tener al menos 6 caracteres';
           }
           return null;
         },

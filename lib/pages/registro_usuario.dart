@@ -1,6 +1,5 @@
-// import 'package:app/data/cuenta.dart';
+import 'package:app/data/auth.dart';
 import 'package:app/data/usuario.dart';
-// import 'package:app/pages/inicio.dart';
 import 'package:app/pages/login_usuario.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +27,8 @@ class _RegisterState extends State<Register> {
           decoration: const BoxDecoration(
               image: DecorationImage(
                   image: NetworkImage(
-                      "https://i.pinimg.com/236x/bb/ff/28/bbff28112f4c75cf11e37360ea0f24af.jpg"),
+                    "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                  ),
                   fit: BoxFit.cover)),
           child: fullBody(context)),
     );
@@ -61,80 +61,21 @@ class _RegisterState extends State<Register> {
             const SizedBox(
               height: 50,
             ),
-            // Center(
-            //   child: Container(
-            //     padding:
-            //         const EdgeInsets.symmetric(horizontal: 40.0, vertical: 8),
-            //     decoration: BoxDecoration(
-            //       border: Border.all(
-            //         color: Colors.blue, // Color del borde
-            //         width: 3.0, // Ancho del borde
-            //       ),
-            //     ),
-            //     child: const Text(
-            //       'NAME',
-            //       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            //     ),
-            //   ),
-            // ),
+
             name(),
             const SizedBox(
               height: 20,
             ),
-            // Center(
-            //   child: Container(
-            //     padding:
-            //         const EdgeInsets.symmetric(horizontal: 40.0, vertical: 8),
-            //     decoration: BoxDecoration(
-            //       border: Border.all(
-            //         color: Colors.blue, // Color del borde
-            //         width: 3.0, // Ancho del borde
-            //       ),
-            //     ),
-            //     child: const Text(
-            //       'PHONE',
-            //       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            //     ),
-            //   ),
-            // ),
+
             phone(),
             const SizedBox(
               height: 20,
             ),
-            // Center(
-            //   child: Container(
-            //     padding: const EdgeInsets.all(8.0),
-            //     decoration: BoxDecoration(
-            //       border: Border.all(
-            //         color: Colors.blue, // Color del borde
-            //         width: 3.0, // Ancho del borde
-            //       ),
-            //     ),
-            //     child: const Text(
-            //       'MAIL',
-            //       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            //     ),
-            //   ),
-            // ),
+
             email(),
             const SizedBox(
               height: 20,
             ),
-            // Center(
-            //   child: Container(
-            //     padding: const EdgeInsets.all(8.0),
-            //     decoration: BoxDecoration(
-            //       border: Border.all(
-            //         color: Colors.blue, // Color del borde
-            //         width: 3.0, // Ancho del borde
-            //       ),
-            //     ),
-            //     child: const Text(
-            //       'PASSWORD',
-            //       style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            //     ),
-            //   ),
-            // ),
             password(),
             const SizedBox(
               height: 40,
@@ -146,7 +87,6 @@ class _RegisterState extends State<Register> {
               context,
             ),
 
-            ///Boton registrar usuario
             const SizedBox(
               height: 80,
             ),
@@ -282,33 +222,26 @@ class _RegisterState extends State<Register> {
         onPressed: () {
           if (_formKey2.currentState!.validate()) {
             ///Se debe verificar si el usuario está registrado, verificando su email
-            if (listaUsuarios
-                .any((usuario) => usuario.email == emailController.text)) {
-              //Si es verdadero ya existe un usuario con ese correo registrado
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('El correo ingresado ya está registrado'),
-                  backgroundColor: Color.fromRGBO(125, 25, 12, 15),
-                ),
-              );
-            } else {
-//Primero se muestra un cuadro con la informacion registrada
-              Usuario nuevoUsuario = Usuario(
-                  nombre: nameController.text,
-                  telefono: phoneController.text,
-                  email: emailController.text,
-                  password: passwordController.text);
-              showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text("Registrar cuenta de usuario"),
-                      content: Text("$nuevoUsuario"),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              listaUsuarios.add(nuevoUsuario);
+
+            Usuario nuevoUsuario = Usuario(
+                nombre: nameController.text,
+                celular: phoneController.text,
+                email: emailController.text,
+                password: passwordController.text);
+
+            //Primero se muestra un cuadro con la informacion registrada
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Registrar cuenta de usuario"),
+                    content: Text("$nuevoUsuario"),
+                    actions: [
+                      TextButton(
+                          onPressed: () async {
+                            if (await autenticacion.registrar(nuevoUsuario)) {
+                              // Se registra exitosamente
                               // Limpia los campos después de guardar
                               nameController.clear();
                               phoneController.clear();
@@ -340,18 +273,28 @@ class _RegisterState extends State<Register> {
                                   builder: (context) => const LoginUsuario(),
                                 ),
                               );
-                            },
-                            child: const Text("OK")),
-                        TextButton(
-                            onPressed: () {
-                              //Si da clic en cancelar no se guarda la informacion
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'El correo ingresado ya está registrado'),
+                                  backgroundColor:
+                                      Color.fromRGBO(125, 25, 12, 15),
+                                ),
+                              );
                               Navigator.pop(context);
-                            },
-                            child: const Text("Cancelar"))
-                      ],
-                    );
-                  });
-            }
+                            }
+                          },
+                          child: const Text("OK")),
+                      TextButton(
+                          onPressed: () {
+                            //Si da clic en cancelar no se guarda la informacion
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Cancelar"))
+                    ],
+                  );
+                });
           } else {
             ///Si hay campos vacios o no se validaron se muestra un mensaje de alerta
             ///y no se guarda nada
@@ -417,6 +360,8 @@ class _PasswordFieldState extends State<PasswordField> {
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Ingrese la Contraseña';
+        } else if (value.length < 6) {
+          return 'La contraseña debe tener al menos 6 caracteres';
         }
         return null;
       },
