@@ -5,15 +5,16 @@ class Usuario {
   final String email;
   final String password;
   double saldo;
+  final String moneda;
 
-  Usuario({
-    this.id,
-    required this.nombre,
-    required this.celular,
-    required this.email,
-    required this.password,
-    this.saldo = 0.0,
-  });
+  Usuario(
+      {this.id,
+      required this.nombre,
+      required this.celular,
+      required this.email,
+      required this.password,
+      this.saldo = 0.0,
+      this.moneda = 'cop'});
 
   @override
   String toString() {
@@ -29,13 +30,13 @@ class Usuario {
   // Este constructor convierte un mapa JSON en una instancia de Usuario
   factory Usuario.fromJson(Map<String, dynamic> json) {
     return Usuario(
-      id: json['id'] as int,
-      nombre: json['nombre'] as String,
-      celular: json['celular'] as String,
-      email: json['email'] as String,
-      password: json['password'] != null ? json['password'] as String : '',
-      saldo: (json['saldo'] as double?) ?? 0.0,
-    );
+        id: json['id'] as int,
+        nombre: json['nombre'] as String,
+        celular: json['celular'] as String,
+        email: json['email'] as String,
+        password: json['password'] != null ? json['password'] as String : '',
+        saldo: (json['saldo'] as double?) ?? 0.0,
+        moneda: json['moneda'] as String);
   }
 
   // Este método convierte la instancia de Usuario a un mapa JSON
@@ -47,6 +48,7 @@ class Usuario {
       'email': email,
       'password': password,
       'saldo': saldo,
+      'moneda': moneda,
     };
   }
 }

@@ -254,19 +254,7 @@ class _RegisterState extends State<Register> {
                                     content:
                                         Text('Te has registrado con exito')),
                               );
-                              //Se guarda true para saber que inicio sesion
-                              // usuarioLogin.login = true;
-                              // Cuenta cuentaUsuario = Cuenta(
-                              //     email: nuevoUsuario.email,
-                              //     password: nuevoUsuario.password);
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => Inicio(
-                              //       cuentaUsuario: cuentaUsuario,
-                              //     ),
-                              //   ),
-                              // );
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

@@ -1,3 +1,6 @@
+import 'package:app/pages/consignar.dart';
+import 'package:app/pages/convertir.dart';
+import 'package:app/pages/retirar.dart';
 import 'package:flutter/material.dart';
 import 'package:app/data/auth.dart';
 import 'package:app/data/usuario.dart';
@@ -119,12 +122,20 @@ class _InicioState extends State<Inicio> {
                         Container(
                           padding: const EdgeInsets.all(15.0),
                           child: Text(
-                            _usuario!.saldo.toString(),
+                            _usuario!.saldo.toStringAsFixed(2),
                             style: const TextStyle(fontSize: 40),
                           ),
                         ),
                       ],
                     ),
+                  ),
+                  Text(
+                    _usuario!.moneda == 'cop'
+                        ? 'COP'
+                        : _usuario!.moneda == 'euro'
+                            ? 'Euros'
+                            : 'Dólares',
+                    style: TextStyle(fontSize: 15),
                   ),
                 ],
               ),
@@ -136,7 +147,12 @@ class _InicioState extends State<Inicio> {
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Lógica para el primer botón
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Consignar(usuario: _usuario),
+                      ),
+                    );
                   },
                   icon: const Icon(Icons.arrow_upward, size: 40),
                   label: const Text('Consignar'),
@@ -160,7 +176,12 @@ class _InicioState extends State<Inicio> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Lógica para el segundo botón
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Retirar(usuario: _usuario),
+                      ),
+                    );
                   },
                   icon: const Icon(Icons.arrow_downward, size: 40),
                   label: const Text('Retirar'),
@@ -186,7 +207,12 @@ class _InicioState extends State<Inicio> {
             const Divider(),
             ElevatedButton(
               onPressed: () {
-                // Lógica para el botón circular
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Convertir(usuario: _usuario),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,

@@ -7,7 +7,6 @@ class UsuarioService {
     final response = await http.get(
       Uri.parse('http://localhost:1337/api/users'),
     );
-
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
       return data.map((json) => Usuario.fromJson(json)).toList();
@@ -35,9 +34,42 @@ class UsuarioService {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(updatedData),
     );
-
     if (response.statusCode != 200) {
       throw Exception('Error al actualizar el usuario');
+    }
+  }
+
+  Future<bool> actualizarSaldoUsuario(int userId, double nuevoSaldo) async {
+    final response = await http.put(
+      Uri.parse('http://localhost:1337/api/users/$userId'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'saldo': nuevoSaldo,
+      }),
+    );
+    print('Respuestaa..  ${response.body}');
+    if (response.statusCode != 200) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  Future<bool> actualizarMonedaUsuario(
+      int userId, double nuevoSaldo, String moneda) async {
+    final response = await http.put(
+      Uri.parse('http://localhost:1337/api/users/$userId'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'saldo': nuevoSaldo,
+        'moneda': moneda,
+      }),
+    );
+    print('Respuestaa..  ${response.body}');
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -48,30 +80,6 @@ class UsuarioService {
 
     if (response.statusCode != 200) {
       throw Exception('Error al eliminar el usuario');
-    }
-  }
-
-  // Tal vez no sea necesaria...
-  Future<bool> registrar(Usuario nuevoUser) async {
-    final response = await http.post(
-      Uri.parse('http://localhost:1337/api/users'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'nombre': nuevoUser.nombre,
-        'celular': nuevoUser.celular,
-        'email': nuevoUser.email,
-        'password': nuevoUser.password,
-        'username': nuevoUser.email.split(
-            '@')[0], // Utiliza la parte antes del símbolo @ como username
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      // Registro exitoso
-      return true;
-    } else {
-      // Error al registrar el usuario
-      return false;
     }
   }
 }
