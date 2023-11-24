@@ -36,6 +36,7 @@ class Main extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
@@ -45,99 +46,90 @@ class Main extends StatelessWidget {
           ),
         ),
         child: SingleChildScrollView(
-          child: Center(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 50,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 100, vertical: 50),
+                  child: Image.asset(
+                    'images/logo.jpeg',
+                    width: 250,
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 100),
-                    child: Center(
-                      child: Image.asset('images/logo.jpeg'),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Row(
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(
-                        width: 30,
-                      ),
                       const Icon(Icons.supervised_user_circle_outlined,
                           size: 100),
                       const SizedBox(
                         width: 15,
                       ),
-                      Center(
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.blue,
-                              width: 3.0,
-                            ),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.blue,
+                            width: 3.0,
                           ),
-                          child: const Text(
-                            'Crear una cuenta',
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
+                        ),
+                        child: const Text(
+                          'Crear cuenta',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       )
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      print(
-                          'tokennn: ${autenticacion.idUsuario} : :${autenticacion.token}');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Register(),
-                        ),
-                      );
-                    },
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(8),
-                      padding: MaterialStateProperty.all(
-                        const EdgeInsets.all(16.0),
-                      ),
-                      backgroundColor: MaterialStateProperty.all(
-                        const Color.fromARGB(255, 21, 114, 21),
-                      ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    print(
+                        'tokennn: ${autenticacion.idUsuario} : :${autenticacion.token}');
+                    Navigator.pushNamed(context, '/registrar');
+                  },
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(8),
+                    padding: MaterialStateProperty.all(
+                      const EdgeInsets.all(16.0),
                     ),
-                    child: const Text(
-                      'Registrarse',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
+                    backgroundColor: MaterialStateProperty.all(
+                      const Color.fromARGB(255, 21, 114, 21),
                     ),
                   ),
-                  const SizedBox(height: 80),
-                  Row(
+                  child: const Text(
+                    'Registrarse',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Divider(),
+                Container(
+                  margin: const EdgeInsets.only(top: 50, bottom: 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      const SizedBox(
-                        width: 30,
-                      ),
                       const Icon(Icons.login, size: 100),
                       const SizedBox(
                         width: 15,
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 55.0,
+                          horizontal: 25.0,
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
@@ -149,7 +141,7 @@ class Main extends StatelessWidget {
                         child: const Text(
                           'Iniciar sesión',
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 23,
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
@@ -157,41 +149,35 @@ class Main extends StatelessWidget {
                       )
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      print(
-                          'tokennn: ${autenticacion.idUsuario} : :${autenticacion.token}');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginUsuario(),
-                        ),
-                      );
-                    },
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(8),
-                      padding: MaterialStateProperty.all(
-                        const EdgeInsets.all(16.0),
-                      ),
-                      backgroundColor: MaterialStateProperty.all(
-                        const Color.fromARGB(255, 21, 61, 114),
-                      ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    print(
+                        'tokennn: ${autenticacion.idUsuario} : :${autenticacion.token}');
+                    Navigator.pushNamed(context, '/iniciarsesion');
+                  },
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(8),
+                    padding: MaterialStateProperty.all(
+                      const EdgeInsets.all(16.0),
                     ),
-                    child: const Text(
-                      'Ingresar',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
+                    backgroundColor: MaterialStateProperty.all(
+                      const Color.fromARGB(255, 21, 61, 114),
                     ),
                   ),
-                  SizedBox(
-                    height: 50,
-                  )
-                ],
-              ),
+                  child: const Text(
+                    'Ingresar',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(
+                  height: 50,
+                )
+              ],
             ),
           ),
         ),

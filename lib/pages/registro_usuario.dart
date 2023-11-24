@@ -1,6 +1,5 @@
 import 'package:app/data/auth.dart';
 import 'package:app/data/usuario.dart';
-import 'package:app/pages/login_usuario.dart';
 import 'package:flutter/material.dart';
 
 final TextEditingController nameController = TextEditingController();
@@ -21,26 +20,32 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-          // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-          // padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(
-                    "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                  ),
-                  fit: BoxFit.cover)),
-          child: fullBody(context)),
+      body: SingleChildScrollView(
+        child: Container(
+            // width: double.infinity,
+            // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+            // padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(
+                      "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                    ),
+                    fit: BoxFit.cover)),
+            child: fullBody(context)),
+      ),
     );
   }
 
   Widget fullBody(BuildContext context) {
     return Center(
       child: Container(
-          // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+          // constraints: BoxConstraints(maxWidth: 800),
+          constraints:
+              BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
           // padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
           decoration: BoxDecoration(
-              // color: const Color.fromRGBO(159, 201, 218, 25),
+              color: const Color.fromARGB(120, 255, 255, 255),
               borderRadius: BorderRadius.circular(10)),
           child: registerForm(context)),
     );
@@ -49,36 +54,30 @@ class _RegisterState extends State<Register> {
   Widget registerForm(BuildContext context) {
     return Form(
         key: _formKey2,
-        child: ListView(
-          shrinkWrap: true,
-          children: <Widget>[
+        child: Column(
+          // shrinkWrap: true,
+          children: [
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 100),
-              child: Center(
-                child: Image.asset('images/logo.jpeg'),
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: Image.asset(
+                'images/logo.jpeg',
+                width: 200,
               ),
             ),
-            const SizedBox(
-              height: 50,
-            ),
+            Container(
+                padding: const EdgeInsets.only(top: 25, bottom: 10),
+                child: const Text(
+                  'Registre sus datos personales',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                )),
 
             name(),
-            const SizedBox(
-              height: 20,
-            ),
-
             phone(),
-            const SizedBox(
-              height: 20,
-            ),
-
             email(),
-            const SizedBox(
-              height: 20,
-            ),
             password(),
             const SizedBox(
-              height: 40,
+              height: 25,
             ),
 
             ///Boton registrar usuario
@@ -86,10 +85,10 @@ class _RegisterState extends State<Register> {
             registrarUsuario(
               context,
             ),
-
             const SizedBox(
-              height: 80,
+              height: 40,
             ),
+            const Divider(),
             irALogin(context),
             const SizedBox(
               height: 40,
@@ -100,7 +99,8 @@ class _RegisterState extends State<Register> {
 
   Widget name() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      constraints: const BoxConstraints(maxWidth: 500),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: TextFormField(
         controller: nameController,
         keyboardType: TextInputType.name,
@@ -117,7 +117,7 @@ class _RegisterState extends State<Register> {
           return null;
         },
         style:
-            const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),
+            const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17),
         decoration: const InputDecoration(
             labelText: "Registre su nombre",
             labelStyle: TextStyle(color: Color.fromARGB(255, 4, 0, 43)),
@@ -129,7 +129,8 @@ class _RegisterState extends State<Register> {
 
   Widget phone() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      constraints: const BoxConstraints(maxWidth: 500),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: TextFormField(
         controller: phoneController,
         keyboardType: TextInputType.phone,
@@ -143,10 +144,19 @@ class _RegisterState extends State<Register> {
           if (!regExp.hasMatch(value)) {
             return 'Número de celular no válido';
           }
+          if (value.startsWith('+')) {
+            if (value.length != 13) {
+              return 'Número de celular es incorrecto';
+            }
+          } else {
+            if (value.length != 10) {
+              return 'Número de celular es incorrecto';
+            }
+          }
           return null;
         },
         style:
-            const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),
+            const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17),
         decoration: const InputDecoration(
             labelText: "Registre su número de celular",
             labelStyle: TextStyle(color: Color.fromARGB(255, 4, 0, 43)),
@@ -158,7 +168,8 @@ class _RegisterState extends State<Register> {
 
   Widget email() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      constraints: const BoxConstraints(maxWidth: 500),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: TextFormField(
         controller: emailController,
         keyboardType: TextInputType.emailAddress,
@@ -175,7 +186,7 @@ class _RegisterState extends State<Register> {
           return null;
         },
         style:
-            const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),
+            const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17),
         decoration: const InputDecoration(
             labelText: "Registre su correo electrónico",
             labelStyle: TextStyle(color: Color.fromARGB(255, 4, 0, 43)),
@@ -187,152 +198,162 @@ class _RegisterState extends State<Register> {
 
   Widget password() {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-        child: PasswordField());
+        constraints: const BoxConstraints(maxWidth: 500),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: const PasswordField());
   }
 
   Widget registrarUsuario(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        style: ButtonStyle(
-          elevation:
-              MaterialStateProperty.all(8), // Ajusta la altura de la sombra
+    return ElevatedButton(
+      style: ButtonStyle(
+        elevation:
+            MaterialStateProperty.all(8), // Ajusta la altura de la sombra
 
-          padding: MaterialStateProperty.all(const EdgeInsets.all(16.0)),
-          backgroundColor:
-              MaterialStateProperty.all(const Color.fromARGB(255, 21, 114, 21)),
-        ),
-        child: const Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.app_registration),
-            SizedBox(
-              width: 7,
-            ),
-            Text(
-              'Registrar cuenta',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        onPressed: () {
-          if (_formKey2.currentState!.validate()) {
-            ///Se debe verificar si el usuario está registrado, verificando su email
-
-            Usuario nuevoUsuario = Usuario(
-                nombre: nameController.text,
-                celular: phoneController.text,
-                email: emailController.text,
-                password: passwordController.text);
-
-            //Primero se muestra un cuadro con la informacion registrada
-            showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text("Registrar cuenta de usuario"),
-                    content: Text("$nuevoUsuario"),
-                    actions: [
-                      TextButton(
-                          onPressed: () async {
-                            if (await autenticacion.registrar(nuevoUsuario)) {
-                              // Se registra exitosamente
-                              // Limpia los campos después de guardar
-                              nameController.clear();
-                              phoneController.clear();
-                              emailController.clear();
-                              passwordController.clear();
-
-                              // Muestra un mensaje de éxito
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content:
-                                        Text('Te has registrado con exito')),
-                              );
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginUsuario(),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      'El correo ingresado ya está registrado'),
-                                  backgroundColor:
-                                      Color.fromRGBO(125, 25, 12, 15),
-                                ),
-                              );
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: const Text("OK")),
-                      TextButton(
-                          onPressed: () {
-                            //Si da clic en cancelar no se guarda la informacion
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Cancelar"))
-                    ],
-                  );
-                });
-          } else {
-            ///Si hay campos vacios o no se validaron se muestra un mensaje de alerta
-            ///y no se guarda nada
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                  content: Text(
-                      'Hay campos inválidos, debe completar el formulario de registro'),
-                  backgroundColor: Color.fromRGBO(125, 25, 12, 15)),
-            );
-            return;
-          }
-        },
+        padding: MaterialStateProperty.all(const EdgeInsets.all(16.0)),
+        backgroundColor:
+            MaterialStateProperty.all(const Color.fromARGB(255, 21, 114, 21)),
       ),
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.app_registration),
+          SizedBox(
+            width: 7,
+          ),
+          Text(
+            'Registrar cuenta',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+      onPressed: () {
+        if (_formKey2.currentState!.validate()) {
+          ///Se debe verificar si el usuario está registrado, verificando su email
+          Usuario nuevoUsuario = Usuario(
+              nombre: nameController.text,
+              celular: phoneController.text,
+              email: emailController.text,
+              password: passwordController.text);
+
+          //Primero se muestra un cuadro con la informacion registrada
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Registrar cuenta de usuario"),
+                  content: Text("$nuevoUsuario"),
+                  actions: [
+                    TextButton(
+                        onPressed: () async {
+                          if (await autenticacion.registrar(nuevoUsuario)) {
+                            // Se registra exitosamente
+                            // Limpia los campos después de guardar
+                            nameController.clear();
+                            phoneController.clear();
+                            emailController.clear();
+                            passwordController.clear();
+
+                            // Muestra un mensaje de éxito
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                    'Te has registrado con exito',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  backgroundColor:
+                                      Color.fromARGB(240, 25, 125, 12)),
+                            );
+
+                            Navigator.pushNamed(context, '/iniciarsesion');
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'El correo ingresado ya está registrado',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                                backgroundColor:
+                                    Color.fromRGBO(125, 25, 12, 15),
+                              ),
+                            );
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: const Text("OK")),
+                    TextButton(
+                        onPressed: () {
+                          //Si da clic en cancelar no se guarda la informacion
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Cancelar"))
+                  ],
+                );
+              });
+        } else {
+          ///Si hay campos vacios o no se validaron se muestra un mensaje de alerta
+          ///y no se guarda nada
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                duration: Duration(milliseconds: 500),
+                content: Text(
+                  'Hay campos inválidos, debe completar el formulario de registro',
+                  style: TextStyle(fontSize: 15),
+                ),
+                backgroundColor: Color.fromRGBO(125, 25, 12, 15)),
+          );
+          return;
+        }
+      },
     );
   }
 
   Widget irALogin(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () {
-          // Cuando se presiona el botón, navega a la página de login
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const LoginUsuario(),
-            ),
-          );
-        },
-        style: ButtonStyle(
-          elevation:
-              MaterialStateProperty.all(8), // Ajusta la altura de la sombra
+    return Column(
+      children: [
+        Container(
+            padding: const EdgeInsets.only(top: 25, bottom: 10),
+            child: const Text(
+              'Si ya tiene una cuenta puede iniciar sesión',
+              style: TextStyle(
+                fontSize: 14,
+              ),
+              textAlign: TextAlign.center,
+            )),
+        ElevatedButton(
+          onPressed: () {
+            // Cuando se presiona el botón, navega a la página de login
+            Navigator.pushNamed(context, '/iniciarsesion');
+          },
+          style: ButtonStyle(
+            elevation:
+                MaterialStateProperty.all(8), // Ajusta la altura de la sombra
 
-          padding: MaterialStateProperty.all(const EdgeInsets.all(16.0)),
-          backgroundColor:
-              MaterialStateProperty.all(const Color.fromARGB(255, 21, 61, 114)),
-        ),
-        child: const Text(
-          'Ir a inicio de sesión',
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
+            padding: MaterialStateProperty.all(const EdgeInsets.all(16.0)),
+            backgroundColor: MaterialStateProperty.all(
+                const Color.fromARGB(255, 21, 61, 114)),
           ),
-          textAlign: TextAlign.center,
+          child: const Text(
+            'Ir a inicio de sesión',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
-      ),
+      ],
     );
   }
 }
 
 class PasswordField extends StatefulWidget {
+  const PasswordField({super.key});
+
   @override
   _PasswordFieldState createState() => _PasswordFieldState();
 }
@@ -353,7 +374,7 @@ class _PasswordFieldState extends State<PasswordField> {
         }
         return null;
       },
-      style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 20),
+      style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 17),
       decoration: InputDecoration(
         labelText: "Registre una contraseña",
         labelStyle: const TextStyle(color: Color.fromARGB(255, 4, 0, 43)),

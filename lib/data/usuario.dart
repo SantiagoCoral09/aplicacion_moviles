@@ -23,7 +23,7 @@ class Usuario {
       Nombre: $nombre, 
       Email: $email, 
       Password: $password,
-      celular: $celular
+      Celular: $celular
     """;
   }
 

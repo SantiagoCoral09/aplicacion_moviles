@@ -23,11 +23,11 @@ class _InicioState extends State<Inicio> {
 
   Future<void> _inicializarUsuario() async {
     try {
-      // Convertir el ID del usuario a String
       int idUsuario = autenticacion.idUsuario!;
       print('idusuario:${idUsuario}');
+
       final usuario = await usuarioService.obtenerUsuarioPorId(idUsuario);
-      print('Usuario obteniso... ${usuario}');
+      print('Usuario obtenido... ${usuario}');
       setState(() {
         _usuario = usuario;
       });
@@ -40,20 +40,22 @@ class _InicioState extends State<Inicio> {
   Widget build(BuildContext context) {
     // Verificamos si _usuario está inicializado antes de usarlo
     if (_usuario == null) {
-      // Muestra un indicador de carga o maneja el caso cuando _usuario es nulo
-      return CircularProgressIndicator(); // Puedes ajustar esto según tus necesidades
+      // Muestra un indicador de carga
+      return CircularProgressIndicator();
     }
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(
-              "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+              ),
+              fit: BoxFit.cover,
             ),
-            fit: BoxFit.cover,
           ),
+          child: fullBody(context),
         ),
-        child: fullBody(context),
       ),
     );
   }
@@ -62,9 +64,10 @@ class _InicioState extends State<Inicio> {
     return SingleChildScrollView(
       child: Center(
         child: Container(
+          // margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 50),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color.fromRGBO(255, 255, 255, 0.2),
+            // color: Color.fromARGB(120, 255, 255, 255),
           ),
           child: InicioWidget(context),
         ),
@@ -74,167 +77,173 @@ class _InicioState extends State<Inicio> {
 
   Widget InicioWidget(BuildContext context) {
     return Stack(children: [
-      Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 30,
+      Column(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(
+            height: 50,
+          ),
+          const Text(
+            "Bienvenido",
+            style: TextStyle(
+              fontSize: 50,
             ),
-            const Text(
-              "Bienvenido",
-              style: TextStyle(
-                fontSize: 55,
-              ),
+          ),
+          Text(
+            _usuario!.nombre,
+            style: const TextStyle(
+              fontSize: 25,
             ),
-            Text(
-              _usuario!.nombre,
-              style: const TextStyle(
-                fontSize: 25,
-              ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+            padding: EdgeInsets.only(top: 15, bottom: 15),
+
+            // constraints: BoxConstraints(
+            //     maxWidth: MediaQuery.of(context).size.width * 0.8),
+            height: 180,
+            width: 400,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(117, 255, 255, 255),
+              borderRadius: BorderRadius.circular(40),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              height: 180,
-              width: 350,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(117, 248, 248, 248),
-                borderRadius: BorderRadius.circular(70),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Su saldo actual es:',
-                    style: TextStyle(fontSize: 35),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    color: const Color.fromARGB(117, 255, 255, 255),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.attach_money_outlined, size: 60),
-                        Container(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            _usuario!.saldo.toStringAsFixed(2),
-                            style: const TextStyle(fontSize: 40),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    _usuario!.moneda == 'cop'
-                        ? 'COP'
-                        : _usuario!.moneda == 'euro'
-                            ? 'Euros'
-                            : 'Dólares',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 30),
-            const Divider(),
-            Row(
-              mainAxisSize: MainAxisSize.min,
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Consignar(usuario: _usuario),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_upward, size: 40),
-                  label: const Text('Consignar'),
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(8),
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.all(16.0),
-                    ),
-                    backgroundColor: MaterialStateProperty.all(
-                      const Color.fromARGB(255, 133, 8, 8),
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),
+                const Text(
+                  'Su saldo actual es:',
+                  style: TextStyle(fontSize: 25),
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(
-                  width: 20,
+                  height: 15,
                 ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Retirar(usuario: _usuario),
+                Container(
+                  color: const Color.fromARGB(117, 255, 255, 255),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.attach_money_outlined, size: 60),
+                      Container(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(
+                          _usuario!.saldo.toStringAsFixed(2),
+                          style: const TextStyle(fontSize: 20),
+                        ),
                       ),
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_downward, size: 40),
-                  label: const Text('Retirar'),
-                  style: ButtonStyle(
-                    elevation: MaterialStateProperty.all(8),
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(
-                          horizontal: 25.0, vertical: 16),
-                    ),
-                    backgroundColor: MaterialStateProperty.all(
-                      const Color.fromARGB(255, 133, 8, 8),
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                    ),
+                    ],
                   ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  _usuario!.moneda == 'cop'
+                      ? 'COP'
+                      : _usuario!.moneda == 'euro'
+                          ? 'Euros'
+                          : 'Dólares',
+                  style: TextStyle(fontSize: 15),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            const Divider(),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Convertir(usuario: _usuario),
+          ),
+          const SizedBox(height: 10),
+          const Divider(),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Consignar(usuario: _usuario),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.arrow_upward, size: 35),
+                label: const Text('Consignar'),
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(8),
+                  padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
                   ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: const Color.fromARGB(255, 3, 8, 56),
-                shape: const CircleBorder(),
-                padding: const EdgeInsets.all(50),
-                elevation: 8,
-              ),
-              child: const Text(
-                'Convertir',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                  backgroundColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 133, 8, 8),
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
                 ),
               ),
+              const SizedBox(
+                width: 10,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Retirar(usuario: _usuario),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.arrow_downward, size: 35),
+                label: const Text('Retirar'),
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(8),
+                  padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(horizontal: 25.0, vertical: 16),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(
+                    const Color.fromARGB(255, 133, 8, 8),
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const Divider(),
+          const SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Convertir(usuario: _usuario),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: const Color.fromARGB(255, 3, 8, 56),
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(50),
+              elevation: 8,
             ),
-            const SizedBox(height: 30),
-          ],
-        ),
+            child: const Text(
+              'Convertir',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 30),
+        ],
       ),
       Positioned(
-        top: 30,
+        top: 5,
         right: 5,
         child: ElevatedButton(
           onPressed: () {
@@ -267,9 +276,9 @@ class _InicioState extends State<Inicio> {
           },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(35.0),
+              borderRadius: BorderRadius.circular(50.0),
             ),
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(5.0),
             backgroundColor: const Color.fromARGB(0, 133, 8, 8),
           ),
           child: const Row(
@@ -277,7 +286,7 @@ class _InicioState extends State<Inicio> {
             children: [
               Icon(
                 Icons.highlight_off,
-                size: 55,
+                size: 40,
                 color: Color.fromARGB(255, 255, 0, 0),
               ),
             ],

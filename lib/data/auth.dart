@@ -6,26 +6,6 @@ class AuthService {
   String? token;
   int? idUsuario;
 
-  Future<bool> verificarCorreoRegistrado(String email) async {
-    try {
-      final response = await http.get(
-        Uri.parse('http://localhost:1337/api/users?email=$email'),
-      );
-      print(response);
-
-      if (response.statusCode == 200) {
-        // final List<dynamic> data = jsonDecode(response.body);
-        return true; // Retorna true si hay usuarios con ese correo
-      } else {
-        return false; // Retorna false en caso de error
-      }
-    } catch (e) {
-      print('Exxcepcion');
-      print(e);
-      return false; // Retorna false en caso de excepción
-    }
-  }
-
   Future<bool> iniciarSesion(String email, String password) async {
     final response = await http.post(
       Uri.parse('http://localhost:1337/api/auth/local'),
