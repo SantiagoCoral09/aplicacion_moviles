@@ -6,9 +6,11 @@ class AuthService {
   String? token;
   int? idUsuario;
 
+  // String url_api = 'http://localhost:1337';
+  String url_api = 'https://cuenta-ahorros.onrender.com';
   Future<bool> iniciarSesion(String email, String password) async {
     final response = await http.post(
-      Uri.parse('http://localhost:1337/api/auth/local'),
+      Uri.parse('$url_api/api/auth/local'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'identifier': email,
@@ -30,7 +32,7 @@ class AuthService {
 
   Future<bool> registrar(Usuario nuevoUser) async {
     final response = await http.post(
-      Uri.parse('http://localhost:1337/api/auth/local/register'),
+      Uri.parse('$url_api/api/auth/local/register'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         "username": nuevoUser.email.split(
