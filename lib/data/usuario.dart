@@ -35,7 +35,7 @@ class Usuario {
         celular: json['celular'] as String,
         email: json['email'] as String,
         password: json['password'] != null ? json['password'] as String : '',
-        saldo: (json['saldo'] as double?) ?? 0.0,
+        saldo: (json['saldo']).toDouble(),
         moneda: json['moneda'] as String);
   }
 

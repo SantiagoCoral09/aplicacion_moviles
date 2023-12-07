@@ -23,10 +23,10 @@ class _InicioState extends State<Inicio> {
 
   Future<void> _inicializarUsuario() async {
     try {
-      int idUsuario = autenticacion.idUsuario!;
-      print('idusuario:${idUsuario}');
+      int idUsuario = (autenticacion.idUsuario!).toInt();
+      print('idusuario:${idUsuario}, ${idUsuario.runtimeType}');
 
-      final usuario = await usuarioService.obtenerUsuarioPorId(idUsuario);
+      Usuario? usuario = await usuarioService.obtenerUsuarioPorId(idUsuario);
       print('Usuario obtenido... ${usuario}');
       setState(() {
         _usuario = usuario;
@@ -44,33 +44,29 @@ class _InicioState extends State<Inicio> {
       return CircularProgressIndicator();
     }
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(
+      body: Container(
+        height: double.infinity,
+        decoration: const BoxDecoration(
+            color: Color.fromARGB(120, 59, 158, 224),
             image: DecorationImage(
-              image: NetworkImage(
-                "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: fullBody(context),
-        ),
+                image: NetworkImage(
+                  "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                ),
+                fit: BoxFit.cover)),
+        child: SingleChildScrollView(child: fullBody(context)),
       ),
     );
   }
 
   Widget fullBody(BuildContext context) {
-    return SingleChildScrollView(
-      child: Center(
-        child: Container(
-          // margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 50),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            // color: Color.fromARGB(120, 255, 255, 255),
-          ),
-          child: InicioWidget(context),
+    return Center(
+      child: Container(
+        // margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 50),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          // color: Color.fromARGB(120, 255, 255, 255),
         ),
+        child: InicioWidget(context),
       ),
     );
   }
@@ -81,7 +77,7 @@ class _InicioState extends State<Inicio> {
         // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(
-            height: 50,
+            height: 100,
           ),
           const Text(
             "Bienvenido",
@@ -243,7 +239,7 @@ class _InicioState extends State<Inicio> {
         ],
       ),
       Positioned(
-        top: 5,
+        top: 35,
         right: 5,
         child: ElevatedButton(
           onPressed: () {

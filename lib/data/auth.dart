@@ -18,10 +18,14 @@ class AuthService {
       }),
     );
 
+    print("Tratando de iniciar sesion");
+    print(response.body);
+
     if (response.statusCode == 200) {
       final responseData = jsonDecode(response.body);
       token = responseData['jwt'];
-      idUsuario = responseData['user']['id'];
+      idUsuario = (responseData['user']['id']);
+      print(idUsuario.runtimeType);
       print('Inicio $idUsuario sesion correcto $token');
       return true;
     } else {
@@ -45,6 +49,8 @@ class AuthService {
       }),
     );
 
+    print("Registrando");
+    print(response.body);
     if (response.statusCode == 200) {
       print('Registradooo');
       return true;

@@ -20,18 +20,16 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-            // width: double.infinity,
-            // margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-            // padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 70),
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(
-                      "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                    ),
-                    fit: BoxFit.cover)),
-            child: fullBody(context)),
+      body: Container(
+        height: double.infinity,
+        decoration: const BoxDecoration(
+            color: Color.fromARGB(120, 59, 158, 224),
+            image: DecorationImage(
+                image: NetworkImage(
+                  "https://images.pexels.com/photos/9704348/pexels-photo-9704348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                ),
+                fit: BoxFit.cover)),
+        child: SingleChildScrollView(child: fullBody(context)),
       ),
     );
   }
